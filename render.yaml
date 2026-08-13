@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: pii-redaction-tool
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      # Shared password gating the UI and the /api/redact endpoint.
+      # `sync: false` makes Render prompt for the value at deploy time and
+      # keeps it out of the repository. If this is left unset the app runs
+      # with NO authentication -- fine locally, not for a public URL.
+      - key: PII_APP_PASSWORD
+        sync: false
+    healthCheckPath: /api/health

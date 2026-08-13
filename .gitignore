@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Claude Code's own local session/tool state -- not part of the project.
+.claude/
+
+# Ignore generated output by default, but keep the actual deliverable.
+output/*.docx
+!output/Red Herring Prospectus_redacted.docx

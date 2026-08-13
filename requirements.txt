@@ -1,0 +1,29 @@
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+# Azure App Service's Linux/Oryx build expects a gunicorn entrypoint for
+# Python web apps; the uvicorn worker class lets it still run our ASGI app.
+# Unused by Render (which invokes uvicorn directly via Procfile) but harmless
+# there.
+gunicorn==23.0.0
+python-multipart==0.0.32
+python-docx==1.2.0
+Faker==40.36.0
+phonenumbers==9.0.36
+pdfplumber==0.11.9
+# A range, not an exact pin: spaCy's PyPI releases get yanked periodically
+# (3.8.0 and 3.8.12 both are, as of writing), and an exact pin to a version
+# that's since been pulled fails the build outright with no way to
+# self-heal -- which is exactly what happened with a prior pin to 3.8.15,
+# a version that no longer appears in PyPI's index at all. A range lets
+# pip pick whatever the current healthy 3.8.x release is. Capped below 3.9
+# to stay on the same minor line as the pinned model wheel below --
+# spaCy's own compatibility promise is per minor version.
+spacy>=3.8.2,<3.9.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+
+# Test suite (`python -m pytest tests/ -v`). Harmless in a deploy, and
+# keeping it here means `pip install -r requirements.txt` is the single
+# setup step for running the tests too.
+pytest==8.4.2
+httpx==0.28.1
+
