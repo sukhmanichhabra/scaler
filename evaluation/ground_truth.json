@@ -1,0 +1,200 @@
+[
+  {
+    "start": 248,
+    "end": 324,
+    "type": "ADDRESS",
+    "text": "4th Floor, Prestige Tech Park, Bellandur, Bangalore 560103, Karnataka, India"
+  },
+  {
+    "start": 361,
+    "end": 399,
+    "type": "ADDRESS",
+    "text": "221B Cunningham Road, Bengaluru 560052"
+  },
+  {
+    "start": 443,
+    "end": 454,
+    "type": "PERSON",
+    "text": "Rashi Patil"
+  },
+  {
+    "start": 495,
+    "end": 516,
+    "type": "EMAIL",
+    "text": "rashi.patil@gmail.com"
+  },
+  {
+    "start": 520,
+    "end": 534,
+    "type": "PHONE",
+    "text": "+91 9876543210"
+  },
+  {
+    "start": 581,
+    "end": 594,
+    "type": "DATE_OF_BIRTH",
+    "text": "14 March 1985"
+  },
+  {
+    "start": 610,
+    "end": 620,
+    "type": "PAN_NUMBER",
+    "text": "ABCDE1234F"
+  },
+  {
+    "start": 654,
+    "end": 687,
+    "type": "ORG",
+    "text": "Meridian Capital Advisors Pvt Ltd"
+  },
+  {
+    "start": 709,
+    "end": 718,
+    "type": "PERSON",
+    "text": "Rohan Dey"
+  },
+  {
+    "start": 759,
+    "end": 828,
+    "type": "ADDRESS",
+    "text": "Flat 12B, Sunrise Apartments, Koramangala 4th Block, Bangalore 560034"
+  },
+  {
+    "start": 851,
+    "end": 870,
+    "type": "EMAIL",
+    "text": "rohan.dey@gmail.com"
+  },
+  {
+    "start": 874,
+    "end": 888,
+    "type": "PHONE",
+    "text": "+91 9123456780"
+  },
+  {
+    "start": 912,
+    "end": 926,
+    "type": "AADHAAR_NUMBER",
+    "text": "1234 5678 9012"
+  },
+  {
+    "start": 928,
+    "end": 940,
+    "type": "PERSON",
+    "text": "Priya Sharma"
+  },
+  {
+    "start": 976,
+    "end": 988,
+    "type": "DATE_OF_BIRTH",
+    "text": "22 July 1978"
+  },
+  {
+    "start": 1011,
+    "end": 1037,
+    "type": "EMAIL",
+    "text": "priya.sharma91@outlook.com"
+  },
+  {
+    "start": 1041,
+    "end": 1051,
+    "type": "PHONE",
+    "text": "9988776655"
+  },
+  {
+    "start": 1086,
+    "end": 1109,
+    "type": "ORG",
+    "text": "Sharma & Associates LLP"
+  },
+  {
+    "start": 1182,
+    "end": 1203,
+    "type": "ORG",
+    "text": "Kapoor Legal Partners"
+  },
+  {
+    "start": 1266,
+    "end": 1275,
+    "type": "ORG",
+    "text": "HDFC Bank"
+  },
+  {
+    "start": 1325,
+    "end": 1341,
+    "type": "CREDIT_CARD",
+    "text": "4532015112830366"
+  },
+  {
+    "start": 1385,
+    "end": 1401,
+    "type": "CREDIT_CARD",
+    "text": "6011000990139424"
+  },
+  {
+    "start": 1470,
+    "end": 1483,
+    "type": "IP_ADDRESS",
+    "text": "192.168.1.104"
+  },
+  {
+    "start": 1519,
+    "end": 1558,
+    "type": "IP_ADDRESS",
+    "text": "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+  },
+  {
+    "start": 1661,
+    "end": 1674,
+    "type": "PERSON",
+    "text": "John Whitmore"
+  },
+  {
+    "start": 1678,
+    "end": 1689,
+    "type": "SSN",
+    "text": "219-09-9999"
+  },
+  {
+    "start": 1699,
+    "end": 1712,
+    "type": "PERSON",
+    "text": "Angela Brooks"
+  },
+  {
+    "start": 1716,
+    "end": 1727,
+    "type": "SSN",
+    "text": "445-11-2222"
+  },
+  {
+    "start": 1733,
+    "end": 1739,
+    "type": "PERSON",
+    "text": "Brooks"
+  },
+  {
+    "start": 1758,
+    "end": 1781,
+    "type": "EMAIL",
+    "text": "angela.brooks@yahoo.com"
+  },
+  {
+    "start": 1785,
+    "end": 1799,
+    "type": "PHONE",
+    "text": "(415) 555-0198"
+  },
+  {
+    "start": 2490,
+    "end": 2511,
+    "type": "EMAIL",
+    "text": "finance@novaweave.com"
+  },
+  {
+    "start": 2729,
+    "end": 2738,
+    "type": "PERSON",
+    "text": "rahul_v88"
+  }
+]

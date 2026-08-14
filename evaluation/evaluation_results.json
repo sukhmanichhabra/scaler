@@ -1,0 +1,136 @@
+{
+  "overlap_threshold": 0.5,
+  "totals": {
+    "tp": 31,
+    "fp": 3,
+    "fn": 2,
+    "precision": 0.9117647058823529,
+    "recall": 0.9393939393939394,
+    "f1": 0.9253731343283583,
+    "accuracy": 0.8611111111111112
+  },
+  "per_type": {
+    "AADHAAR_NUMBER": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "ADDRESS": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "CREDIT_CARD": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "DATE_OF_BIRTH": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "EMAIL": {
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "IP_ADDRESS": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "ORG": {
+      "tp": 3,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75
+    },
+    "PAN_NUMBER": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "PERSON": {
+      "tp": 6,
+      "fp": 2,
+      "fn": 1,
+      "precision": 0.75,
+      "recall": 0.8571428571428571,
+      "f1": 0.7999999999999999
+    },
+    "PHONE": {
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "SSN": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "false_negatives": [
+    {
+      "start": 1182,
+      "end": 1203,
+      "type": "ORG",
+      "text": "Kapoor Legal Partners"
+    },
+    {
+      "start": 2729,
+      "end": 2738,
+      "type": "PERSON",
+      "text": "rahul_v88"
+    }
+  ],
+  "false_positives": [
+    {
+      "start": 31,
+      "end": 59,
+      "type": "ORG",
+      "text": "Draft Red Herring Prospectus"
+    },
+    {
+      "start": 1802,
+      "end": 1819,
+      "type": "PERSON",
+      "text": "Reference Numbers"
+    },
+    {
+      "start": 2653,
+      "end": 2659,
+      "type": "PERSON",
+      "text": "Zomato"
+    }
+  ]
+}

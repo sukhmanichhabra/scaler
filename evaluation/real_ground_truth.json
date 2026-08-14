@@ -1,0 +1,82 @@
+{
+  "_README": [
+    "Hand-labelled ground truth for the sampled blocks in real_sample.json.",
+    "Labels are recorded as the exact substring, not as character offsets:",
+    "run_real_evaluation.py locates each one in its block, so offsets are",
+    "correct by construction and there is nothing to mis-count by hand.",
+    "",
+    "Labelling policy (applied consistently; see EVALUATION.md section 6):",
+    "  - EMAIL / PHONE / ADDRESS / PERSON: labelled wherever they appear,",
+    "    including role mailboxes (cs.connect@...) and switchboard numbers,",
+    "    since the brief asks for email addresses and phone numbers as",
+    "    categories rather than only personal ones.",
+    "  - Website URLs are NOT labelled: they are not one of the nine",
+    "    required PII types and a public corporate URL identifies no one.",
+    "  - Statutes, regulations and circulars ('Companies Act, 2013', 'SEBI",
+    "    ICDR Master Circular') are NOT PII, nor are the regulators named",
+    "    inside them. Redacting a statute's title destroys meaning and",
+    "    protects nobody.",
+    "  - Defined terms from the document's own glossary ('Net Proceeds',",
+    "    'Promoter Group', 'Statutory Auditors') are NOT PII.",
+    "  - A bare place name ('Supa Ahilyanagar in Maharashtra') is NOT an",
+    "    ADDRESS: it identifies a facility, not an individual. Same rule the",
+    "    detector documents for 'Bangalore' or 'India' on their own.",
+    "  - The issuer's own name is excluded by configuration, matching how",
+    "    the delivered run was produced (--issuer 'KSH International ...')."
+  ],
+  "labels": [
+    {"id": 0, "type": "EMAIL", "value": "kshinternational.ipo@in.mpms.mufg.com"},
+
+    {"id": 1, "type": "PERSON", "value": "Sarthak Malvadkar"},
+    {"id": 1, "type": "ADDRESS", "value": "Gat No. 11/3, 11/4, 11/5, Village Birdewadi"},
+
+    {"id": 3, "type": "PHONE", "value": "+91 20 6769 4648"},
+    {"id": 3, "type": "PERSON", "value": "Manisha Shukla"},
+
+    {"id": 4, "type": "ADDRESS", "value": "201, Tower 2, Montreal Business Centre, Off Pallod Farms, Baner, Pune – 411 045, Maharashtra, India"},
+
+    {"id": 5, "type": "PERSON", "value": "Sarthak Malvadkar"},
+    {"id": 5, "type": "PHONE", "value": "+ 91 20 4505 3237"},
+
+    {"id": 6, "type": "PHONE", "value": "+91 20 2640 3100"},
+    {"id": 6, "type": "PERSON", "value": "Chitra Raste"},
+    {"id": 6, "type": "EMAIL", "value": "pro@eximbankindia.in"},
+
+    {"id": 7, "type": "EMAIL", "value": "cs.connect@kshinternational.com"},
+
+    {"id": 8, "type": "PERSON", "value": "Shanti Gopalkrishnan"},
+
+    {"id": 9, "type": "PHONE", "value": "+91 20 2561 8211"},
+    {"id": 9, "type": "PERSON", "value": "Tushar Wakhele"},
+
+    {"id": 10, "type": "EMAIL", "value": "siddharth.jadhav@hdfcbank.com"},
+    {"id": 10, "type": "EMAIL", "value": "sachin.gawade@hdfcbank.com"},
+    {"id": 10, "type": "EMAIL", "value": "eric.bacha@hdfcbank.com"},
+    {"id": 10, "type": "EMAIL", "value": "tushar.gavankar@hdfcbank.com"},
+    {"id": 10, "type": "EMAIL", "value": "pravin.teli2@hdfcbank.com"},
+
+    {"id": 11, "type": "PHONE", "value": "+91 22 6807 7100"},
+    {"id": 11, "type": "EMAIL", "value": "ksh@icicisecurities.com"},
+
+    {"id": 12, "type": "PHONE", "value": "+91-20-26234000"},
+    {"id": 12, "type": "PERSON", "value": "Sharmila Joshi"},
+    {"id": 12, "type": "EMAIL", "value": "sharmila.joshi@indusind.com"},
+
+    {"id": 13, "type": "ADDRESS", "value": "11/3, 11/4 and 11/5, Village Birdewadi, Chakan Taluka - Khed, Pune – 410 501, Maharashtra, India"},
+
+    {"id": 14, "type": "PERSON", "value": "Eric Bacha"},
+    {"id": 14, "type": "PERSON", "value": "Sachin Gawade"},
+    {"id": 14, "type": "PERSON", "value": "Pravin Teli"},
+    {"id": 14, "type": "PERSON", "value": "Siddharth Jadhav"},
+    {"id": 14, "type": "PERSON", "value": "Tushar Gavankar"},
+
+    {"id": 15, "type": "PHONE", "value": "+91 22 6807 7100"},
+    {"id": 15, "type": "EMAIL", "value": "ksh@icicisecurities.com"},
+    {"id": 15, "type": "EMAIL", "value": "customercare@icicisecurities.com"},
+
+    {"id": 16, "type": "ADDRESS", "value": "1st Floor, L B S Marg, Vikhroli (West) Mumbai 400083, (Maharashtra), India"},
+    {"id": 16, "type": "PHONE", "value": "+91 81081 14949"},
+
+    {"id": 17, "type": "EMAIL", "value": "kshinternational.ipo@in.mpms.mufg.com"}
+  ]
+}
