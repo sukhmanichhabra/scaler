@@ -1,0 +1,442 @@
+/* ---------------------------------------------------------------
+   PII Redaction Tool — interface
+
+   A deliberately bright, high-contrast treatment: chunky rounded cards
+   on warm paper, heavy black type, and a colour-coded chip cloud where
+   each PII category owns a hue. Colour here is functional as well as
+   playful — a glance at the chips tells you what's switched on, and the
+   result tiles reuse the same hues so the breakdown maps back to them.
+
+   Single-theme by intent: every colour is stated explicitly so the page
+   renders identically regardless of the viewer's OS theme.
+------------------------------------------------------------------ */
+:root {
+  /* palette */
+  --paper:      #FBF3E4;
+  --paper-deep: #F5E8D3;
+  --white:      #FFFFFF;
+  --ink:        #12120F;
+  --ink-soft:   #57564E;
+  --ink-faint:  #8C8B82;
+  --line:       #E7DCC7;
+
+  --lime:       #DFF264;
+  --lime-deep:  #C8DE3E;
+  --lav:        #C7BFF8;
+  --pink:       #FBC6E2;
+  --orange:     #F7A863;
+  --mint:       #A6E6BC;
+  --sky:        #9FD8F5;
+  --danger:     #D93B3B;
+
+  --radius:     22px;
+  --radius-sm:  14px;
+  --radius-pill: 999px;
+
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow: 0 1px 2px rgba(18,18,15,.05), 0 10px 30px rgba(18,18,15,.06);
+}
+
+* { box-sizing: border-box; }
+
+/* An element with its own `display` beats the browser's default
+   [hidden] rule at equal specificity — without this, toggling
+   `.hidden` in JS silently stops working. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+h1, h2 { margin: 0; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
+p { margin: 0; }
+
+/* ---------------- Chips ---------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 2px solid var(--ink);
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.chip-lime   { background: var(--lime); }
+.chip-lav    { background: var(--lav); }
+.chip-pink   { background: var(--pink); }
+.chip-orange { background: var(--orange); }
+.chip-mint   { background: var(--mint); }
+.chip-sky    { background: var(--sky); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+
+/* A chip is a checkbox: unchecked drains the colour out of it. */
+.types .chip input { position: absolute; opacity: 0; pointer-events: none; }
+.types .chip::before {
+  content: "";
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  flex: none;
+  transition: opacity .12s ease, transform .12s ease;
+}
+.types .chip:has(input:not(:checked)) {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink-faint);
+}
+.types .chip:has(input:not(:checked))::before { opacity: .25; transform: scale(.7); }
+.types .chip:hover { transform: translateY(-1px); }
+.types .chip:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* ---------------- Login gate ---------------- */
+.gate {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(120% 90% at 12% 0%,  var(--lav)  0%, transparent 45%),
+    radial-gradient(120% 90% at 92% 8%,  var(--lime) 0%, transparent 42%),
+    var(--paper);
+}
+.gate-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 8px 8px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+/* Slightly looser than the hero: this heading wraps to two lines and its
+   descenders (g, y) would otherwise crowd the line beneath. */
+.gate-card h1 { font-size: 2.1rem; font-weight: 900; line-height: 1.18; }
+.gate-card h1 em { font-style: normal; background: var(--lime); padding: 0 .12em; border-radius: 6px; }
+.gate-sub { color: var(--ink-soft); font-size: .93rem; }
+.gate-card .field, .gate-card .btn, .gate-card .alert { width: 100%; }
+
+/* ---------------- Top bar ---------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(18px, 5vw, 40px);
+  border-bottom: 2px solid var(--ink);
+  background: var(--lime);
+}
+.brand { display: inline-flex; align-items: center; gap: 10px; }
+.brand-bar { width: 30px; height: 13px; background: var(--ink); border-radius: 3px; }
+.brand-name { font-weight: 800; letter-spacing: .04em; font-size: .95rem; }
+
+/* ---------------- Shell ---------------- */
+.shell {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 60px) clamp(18px, 5vw, 32px) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero { display: flex; flex-direction: column; gap: 16px; }
+.hero h1 {
+  font-size: clamp(2.1rem, 7vw, 3.6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.hero mark {
+  color: var(--ink);
+  padding: 0 .14em;
+  border-radius: 8px;
+  /* keeps the highlight looking right when a phrase wraps across lines */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.mk-orange { background: var(--orange); }
+.mk-lav    { background: var(--lav); }
+.hero-sub { color: var(--ink-soft); font-size: 1.02rem; max-width: 56ch; }
+
+/* ---------------- Cards ---------------- */
+.card {
+  background: var(--white);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: clamp(18px, 4vw, 26px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.card-upload { display: flex; flex-direction: column; gap: 20px; }
+#uploadForm { display: flex; flex-direction: column; gap: 20px; }
+
+/* ---------------- Drop zone ---------------- */
+.drop {
+  display: block;
+  border: 2.5px dashed var(--ink);
+  border-radius: var(--radius-sm);
+  background: var(--paper-deep);
+  padding: clamp(26px, 6vw, 42px) 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.drop:hover, .drop.dragover { background: var(--lime); transform: translateY(-2px); }
+.drop-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--lime);
+  margin-bottom: 12px;
+}
+.drop-title { font-weight: 700; font-size: 1.02rem; }
+.drop-title span { text-decoration: underline; text-decoration-thickness: 2px; }
+.drop-sub { color: var(--ink-soft); font-size: .85rem; margin-top: 3px; }
+
+.chosen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  word-break: break-all;
+  font-size: .95rem;
+}
+.chosen-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); border: 2px solid var(--ink); flex: none; }
+.chosen button {
+  background: var(--ink); color: var(--white);
+  border: none; border-radius: 50%;
+  width: 24px; height: 24px;
+  font-size: 1.05rem; line-height: 1;
+  cursor: pointer; flex: none;
+}
+
+/* ---------------- Blocks / options ---------------- */
+.block { display: flex; flex-direction: column; gap: 11px; }
+.block-label { font-weight: 700; font-size: .95rem; }
+
+.options { border-top: 2px solid var(--line); padding-top: 16px; }
+.options summary {
+  cursor: pointer; font-weight: 700; font-size: .95rem; list-style: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.options summary::-webkit-details-marker { display: none; }
+.options summary::before {
+  content: "+";
+  display: grid; place-items: center;
+  width: 22px; height: 22px; flex: none;
+  border-radius: 50%; background: var(--ink); color: var(--lime);
+  font-size: .9rem; font-weight: 700;
+}
+.options[open] summary::before { content: "–"; }
+.options-body { padding-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+.field { display: flex; flex-direction: column; gap: 7px; font-size: .88rem; }
+.field > span { font-weight: 600; }
+.field em { font-style: normal; color: var(--ink-faint); font-weight: 400; }
+.field input {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+}
+.field input::placeholder { color: var(--ink-faint); }
+.field input:focus { outline: 3px solid var(--lav); outline-offset: 1px; }
+
+.switch { display: flex; align-items: center; gap: 10px; font-size: .9rem; cursor: pointer; font-weight: 500; }
+.switch input { width: 18px; height: 18px; accent-color: var(--ink); }
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 13px 24px;
+  font-family: inherit;
+  font-size: .97rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.btn-block { width: 100%; }
+.btn-lg { padding: 16px 24px; font-size: 1.02rem; }
+.btn-dark { background: var(--ink); color: var(--white); }
+.btn-dark:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink-soft); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--white); }
+.btn:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn:focus-visible { outline: 3px solid var(--lav); outline-offset: 2px; }
+
+/* ---------------- Status ---------------- */
+.status { border-top: 2px solid var(--line); padding-top: 20px; }
+.working { display: flex; flex-direction: column; gap: 9px; }
+.track {
+  height: 12px;
+  background: var(--paper-deep);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+/* Indeterminate on purpose: the server reports no percentage, so the bar
+   shows that work is happening without inventing progress it can't know. */
+.track span {
+  display: block; height: 100%; width: 38%;
+  background: var(--lime-deep);
+  animation: sweep 1.5s ease-in-out infinite;
+}
+@keyframes sweep {
+  0%   { transform: translateX(-105%); }
+  100% { transform: translateX(290%); }
+}
+.working-text { font-weight: 700; font-variant-numeric: tabular-nums; }
+.working-note { color: var(--ink-soft); font-size: .86rem; }
+
+.result { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.result-count { font-size: 1.5rem; font-weight: 900; letter-spacing: -.02em; }
+.breakdown {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: 8px; width: 100%;
+}
+.breakdown li {
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-size: .85rem;
+  font-weight: 600;
+  background: var(--white);
+}
+.breakdown li b { font-weight: 900; font-variant-numeric: tabular-nums; }
+/* Result tiles reuse the chip hues so a count maps back to its category. */
+.breakdown li:nth-child(6n+1) { background: var(--lav); }
+.breakdown li:nth-child(6n+2) { background: var(--pink); }
+.breakdown li:nth-child(6n+3) { background: var(--lime); }
+.breakdown li:nth-child(6n+4) { background: var(--orange); }
+.breakdown li:nth-child(6n+5) { background: var(--mint); }
+.breakdown li:nth-child(6n+6) { background: var(--sky); }
+.result .btn { width: 100%; }
+
+/* ---------------- Confidence + verification panels ---------------- */
+.panel {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.panel-label {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+.confidence-bar {
+  display: flex;
+  width: 100%;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  background: var(--paper-deep);
+}
+.confidence-bar span { display: block; height: 100%; }
+.confidence-bar .seg-high        { background: var(--mint); }
+.confidence-bar .seg-medium      { background: var(--sky); }
+.confidence-bar .seg-needs_review { background: var(--orange); }
+
+.confidence-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: .82rem;
+  font-weight: 600;
+}
+.confidence-legend .item { display: inline-flex; align-items: center; gap: 6px; }
+.confidence-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.confidence-legend .dot.seg-high        { background: var(--mint); }
+.confidence-legend .dot.seg-medium      { background: var(--sky); }
+.confidence-legend .dot.seg-needs_review { background: var(--orange); }
+.confidence-legend .count { font-variant-numeric: tabular-nums; font-weight: 900; }
+
+.residual-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: .87rem;
+  font-weight: 600;
+}
+.residual-row .dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: var(--mint);
+}
+.residual-row.has-issue .dot { background: var(--danger); }
+.residual-row.has-note .dot { background: var(--orange); }
+
+.warnings {
+  list-style: none; padding: 0; margin: 0; width: 100%;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.warnings li {
+  background: #FFF7E6;
+  border: 2px solid var(--orange);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  font-size: .84rem;
+  color: #6B4A0E;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.alert {
+  background: #FDECEC;
+  border: 2px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 13px 15px;
+  color: #8E1F1F;
+  font-size: .9rem;
+  font-weight: 600;
+}
+.alert p { margin: 0; }
+
+.footnote { color: var(--ink-faint); font-size: .85rem; text-align: center; }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 560px) {
+  .topbar { padding: 14px 18px; }
+  .gate-card { padding: 24px; box-shadow: 5px 5px 0 var(--ink); }
+  .gate-card h1 { font-size: 1.8rem; }
+  .card { box-shadow: 4px 4px 0 var(--ink); }
+  .chip { padding: 8px 13px; font-size: .82rem; }
+  .result-count { font-size: 1.28rem; }
+}
