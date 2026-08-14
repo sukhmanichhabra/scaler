@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PII Redaction Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- ?v= busts any cached copy whenever these files change -->
+<link rel="stylesheet" href="/static/style.css?v=3">
+</head>
+<body>
+
+<!-- ============================ Login gate ============================ -->
+<div class="gate" id="gate" hidden>
+  <form class="gate-card" id="loginForm">
+    <span class="chip chip-lime">Restricted</span>
+    <h1>Let's get you<br>back <em>inside.</em></h1>
+    <p class="gate-sub">This tool handles confidential documents. Enter the access password to continue.</p>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" id="passwordInput" autocomplete="current-password" required autofocus placeholder="••••••••">
+    </label>
+    <p class="alert" id="gateError" hidden></p>
+    <button type="submit" class="btn btn-dark btn-block" id="loginBtn">Unlock</button>
+  </form>
+</div>
+
+<!-- ============================== App ================================= -->
+<div class="app" id="app" hidden>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-bar" aria-hidden="true"></span>
+      <span class="brand-name">PII//</span>
+    </div>
+    <button type="button" class="btn btn-ghost" id="logoutBtn" hidden>Sign out</button>
+  </header>
+
+  <main class="shell">
+
+    <!-- Hero statement -->
+    <section class="hero">
+      <h1>
+        STRIP THE <mark class="mk-orange">NAMES.</mark>
+        KEEP THE <mark class="mk-lav">DOCUMENT</mark> READABLE.
+      </h1>
+      <p class="hero-sub">
+        Every name, email, phone number, address and ID swapped for a realistic
+        fake — consistently, so the same person reads as the same person throughout.
+      </p>
+    </section>
+
+    <!-- Upload card -->
+    <section class="card card-upload">
+      <form id="uploadForm">
+        <label id="dropZone" class="drop" for="fileInput">
+          <input type="file" id="fileInput" accept=".docx,.pdf,.txt" hidden>
+          <div class="drop-inner" id="dropInner">
+            <span class="drop-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 16V4M12 4L7 9M12 4l5 5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <p class="drop-title">Drop a file here, or <span>browse</span></p>
+            <p class="drop-sub">.docx · .pdf · .txt — up to 10 MB</p>
+          </div>
+          <div class="chosen" id="fileChosen" hidden>
+            <span class="chosen-dot" aria-hidden="true"></span>
+            <span id="fileChosenName"></span>
+            <button type="button" id="fileClear" aria-label="Remove file">&times;</button>
+          </div>
+        </label>
+
+        <!-- What to look for -->
+        <div class="block">
+          <p class="block-label">What should we look for?</p>
+          <div class="chips types">
+            <label class="chip chip-lav"><input type="checkbox" value="PERSON" checked> Names</label>
+            <label class="chip chip-pink"><input type="checkbox" value="EMAIL" checked> Emails</label>
+            <label class="chip chip-lime"><input type="checkbox" value="PHONE" checked> Phones</label>
+            <label class="chip chip-orange"><input type="checkbox" value="ORG" checked> Companies</label>
+            <label class="chip chip-mint"><input type="checkbox" value="ADDRESS" checked> Addresses</label>
+            <label class="chip chip-sky"><input type="checkbox" value="SSN" checked> SSNs</label>
+            <label class="chip chip-pink"><input type="checkbox" value="CREDIT_CARD" checked> Cards</label>
+            <label class="chip chip-lav"><input type="checkbox" value="DATE_OF_BIRTH" checked> Birth dates</label>
+            <label class="chip chip-lime"><input type="checkbox" value="IP_ADDRESS" checked> IPs</label>
+            <label class="chip chip-mint"><input type="checkbox" value="PAN_NUMBER" checked> PAN</label>
+            <label class="chip chip-orange"><input type="checkbox" value="AADHAAR_NUMBER" checked> Aadhaar</label>
+            <label class="chip chip-sky"><input type="checkbox" value="IFSC_CODE" checked> IFSC</label>
+            <label class="chip chip-pink"><input type="checkbox" value="GSTIN" checked> GSTIN</label>
+            <label class="chip chip-lav"><input type="checkbox" value="UPI_ID" checked> UPI IDs</label>
+            <label class="chip chip-lime"><input type="checkbox" value="PASSPORT_NUMBER" checked> Passports</label>
+            <label class="chip chip-mint"><input type="checkbox" value="VOTER_ID" checked> Voter IDs</label>
+            <label class="chip chip-orange"><input type="checkbox" value="DRIVING_LICENSE" checked> Driving licences</label>
+            <label class="chip chip-sky"><input type="checkbox" value="BANK_ACCOUNT_NUMBER" checked> Bank accounts</label>
+          </div>
+        </div>
+
+        <details class="block options">
+          <summary>Advanced options</summary>
+          <div class="options-body">
+            <label class="field">
+              <span>Company names to keep unredacted <em>(comma-separated)</em></span>
+              <input type="text" id="issuerNames" placeholder="KSH International Limited, KSH International">
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="redactIssuer">
+              <span>Redact the subject company's own name too</span>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="verifyOutput" checked>
+              <span>Verify output <em>(re-scans the finished file for leftover PII — roughly doubles processing time; turn off for a faster result on slow hosting)</em></span>
+            </label>
+          </div>
+        </details>
+
+        <button type="submit" class="btn btn-dark btn-block btn-lg" id="submitBtn" disabled>
+          Redact document
+        </button>
+      </form>
+
+      <!-- Status -->
+      <div class="status" id="status" hidden>
+
+        <div class="working" id="working" hidden>
+          <div class="track"><span></span></div>
+          <p class="working-text" id="workingText">Analysing document… 0s</p>
+          <p class="working-note">A large filing takes around 30 seconds. Keep this tab open.</p>
+        </div>
+
+        <div class="result" id="result" hidden>
+          <span class="chip chip-mint">Done</span>
+          <p class="result-count" id="resultCount"></p>
+          <ul class="breakdown" id="breakdown"></ul>
+
+          <div class="panel" id="confidencePanel" hidden>
+            <p class="panel-label">Confidence</p>
+            <div class="confidence-bar" id="confidenceBar" role="img" aria-label="Confidence breakdown"></div>
+            <div class="confidence-legend" id="confidenceLegend"></div>
+          </div>
+
+          <div class="panel" id="residualPanel" hidden>
+            <p class="panel-label">Verification</p>
+            <div class="residual-row" id="residualLeaks"></div>
+            <div class="residual-row" id="residualUnexpected"></div>
+          </div>
+
+          <ul class="warnings" id="resultWarnings" hidden></ul>
+
+          <a class="btn btn-dark btn-block btn-lg" id="downloadBtn" href="#" download>Download redacted .docx</a>
+          <button type="button" class="btn btn-ghost btn-block" id="againBtn">Redact another file</button>
+        </div>
+
+        <div class="alert" id="error" hidden>
+          <p id="errorText"></p>
+        </div>
+      </div>
+    </section>
+
+    <p class="footnote">
+      Files are processed for this one request and deleted immediately after. Nothing is stored.
+    </p>
+  </main>
+</div>
+
+<script src="/static/script.js?v=3"></script>
+</body>
+</html>
