@@ -57,3 +57,4 @@ jobs:
           app-name: 'scaler'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          startup-command: 'gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app'
